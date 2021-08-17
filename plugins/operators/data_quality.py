@@ -5,7 +5,7 @@ from airflow.utils.decorators import apply_defaults
 class DataQualityOperator(BaseOperator):
     """
     Data quality check on the tables created.
-    It checks that all tables habe been populated, number of record higher than 0
+    It checks that all tables have been populated, number of record higher than 0
     """
 
     ui_color = '#89DA59'

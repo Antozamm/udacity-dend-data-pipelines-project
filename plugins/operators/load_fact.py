@@ -3,6 +3,10 @@ from airflow.models import BaseOperator
 from airflow.utils.decorators import apply_defaults
 
 class LoadFactOperator(BaseOperator):
+    """
+    This operator executes the sql_query passed as argument.
+    It is used to load the fact tables songplays
+    """
 
     ui_color = '#F98866'
 

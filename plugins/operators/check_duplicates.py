@@ -59,11 +59,11 @@ class CheckDuplicatesOperator(BaseOperator):
             num_records = records_df.shape[0]
 
             if num_records>0:
-                self.log.warning(f"{table} has duplicates in column(s): {self.params[table]}.")
+                self.log.warning(f"The table >>>>{table}<<<< has duplicates in column(s): {self.params[table]}.")
                 self.log.info(f"These duplicates have been found:")
                 self.log.info(records_df)
             else:
-                self.log.info(f"No duplicates found in {table}, column(s): {self.params[table]}.") 
+                self.log.info(f"No duplicates found in the table {table}, column(s): {self.params[table]}.") 
 
     def func_generate_string(columns_list):
         """

@@ -3,6 +3,10 @@ from airflow.models import BaseOperator
 from airflow.utils.decorators import apply_defaults
 
 class LoadDimensionOperator(BaseOperator):
+    """
+    This operator executes the sql_query passed as argument.
+    It is used to load the dimension tables 
+    """
 
     ui_color = '#80BD9E'
 

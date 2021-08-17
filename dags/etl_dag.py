@@ -11,12 +11,6 @@ from airflow.contrib.hooks.aws_hook import AwsHook
 from helpers import SqlQueries
 
 
-def load_credentials():
-    aws_hook = AwsHook('aws_credentials')
-    return aws_hook.get_credentials()
-
-
-credentials = load_credentials()
 
 # Create a connection:
 # airflow connections -a --conn_id 'aws_credentials' --conn_type 'aws' --conn_login 'AKIARPUGMYML52GPKEOR' --conn_password 'uvAYZ3KyhbX/na7jSYb3LPp3LCxUM+L90qvjGTnv'
@@ -36,37 +30,43 @@ default_args = {
 dag = DAG('sparkify_etl',
           default_args=default_args,
           description='Load and transform data in Redshift with Airflow',
-          schedule_interval='0 0 * * *'
-#           schedule_interval=None,
+#           schedule_interval='0 0 * * *',
+          schedule_interval=None,
           catchup= False
         )
 
 start_operator = DummyOperator(task_id='Begin_execution',  dag=dag)
 
+# Setting kwargs for staging_events
+kwargs = {'table': 'staging_events',
+          's3_key': 's3://udacity-dend/log_data',
+          'credential_access_key': '',
+          'credential_secret_key': '',
+          'region': 'us-west-2',
+          'json_s3_key': 's3://udacity-dend/log_json_path.json'}
+    
 stage_events_to_redshift = StageToRedshiftOperator(
     task_id='Stage_events',
     dag=dag,
     aws_credentials = 'aws_credentials',
     redshift_conn_id = 'redshift',
-    sql_query = SqlQueries.copy_stage_table.format('staging_events',
-                                                   's3://udacity-dend/log_data',
-                                                   credentials.access_key,
-                                                   credentials.secret_key,
-                                                   'us-west-2',
-                                                   's3://udacity-dend/log_json_path.json')
+    **kwargs
 )
+
+# Setting kwargs for staging_songs
+kwargs = {'table': 'staging_songs',
+          's3_key': 's3://udacity-dend/song_data/A/A/A/',
+          'credential_access_key': '',
+          'credential_secret_key': '',
+          'region': 'us-west-2',
+          'json_s3_key': 'auto'}
 
 stage_songs_to_redshift = StageToRedshiftOperator(
     task_id='Staging_songs',
     dag=dag,
     aws_credentials = 'aws_credentials',
     redshift_conn_id = 'redshift',
-    sql_query = SqlQueries.copy_stage_table.format('staging_songs',
-                                                   's3://udacity-dend/song_data/A/A/A/',
-                                                   credentials.access_key,
-                                                   credentials.secret_key,
-                                                   'us-west-2',
-                                                   'auto')
+    **kwargs
 )
 
 
@@ -144,5 +144,4 @@ run_quality_checks    >> run_check_duplicates
 
 run_check_duplicates  >> end_operator
 
-# run_quality_checks >> end_operator
 
