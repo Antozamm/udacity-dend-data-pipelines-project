@@ -55,7 +55,7 @@ stage_events_to_redshift = StageToRedshiftOperator(
 
 # Setting kwargs for staging_songs
 kwargs = {'table': 'staging_songs',
-          's3_key': 's3://udacity-dend/song_data/A/A/A/',
+          's3_key': 's3://udacity-dend/song_data/',
           'credential_access_key': '',
           'credential_secret_key': '',
           'region': 'us-west-2',
