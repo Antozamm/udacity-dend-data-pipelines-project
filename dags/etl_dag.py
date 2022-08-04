@@ -13,7 +13,7 @@ from helpers import SqlQueries
 
 
 # Create a connection:
-# airflow connections -a --conn_id 'aws_credentials' --conn_type 'aws' --conn_login 'AKIARPUGMYML52GPKEOR' --conn_password 'uvAYZ3KyhbX/na7jSYb3LPp3LCxUM+L90qvjGTnv'
+# airflow connections -a --conn_id 'aws_credentials' --conn_type 'aws' --conn_login 'xyz' --conn_password 'xyz123'
 # airflow connections -a --conn_id 'redshift' --conn_type 'postgres' --conn_host 'redshift-cluster-1.cugnyqpetzqp.us-west-2.redshift.amazonaws.com' --conn_schema 'dev' --conn_login 'awsuser' --conn_password 'Giulia83' --conn_port 5439
 # /opt/airflow/start.sh
 
